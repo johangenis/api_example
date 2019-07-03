@@ -1,0 +1,28 @@
+language: python
+python:
+  - "3.6"
+
+services:
+  - docker
+
+before_script: pip install docker-compose
+
+script:
+  - docker-compose run --rm app sh -c "python manage.py test && flake8"
+
+deploy:
+  provider: heroku
+  api_key: 1e1a2a38-ae6c-4e20-9732-179c024643ca
+  app: api-example
+
+# after_success:
+#   - if [ "$TRAVIS_BRANCH" == "master" ]; then
+#     docker login --username=johan.j.genis@gmail.com --password=1e1a2a38-ae6c-4e20-9732-179c024643ca registry.heroku.com;
+#     docker tag web registry.heroku.com/beer-app-rest-api;
+#     docker push registry.heroku.com/beer-app-rest-api;
+#     fi
+#   - if [ "$TRAVIS_BRANCH" == "qa" ]; then
+#     docker login --username=johan.j.genis@gmail.com --password=1e1a2a38-ae6c-4e20-9732-179c024643ca registry.heroku.com;
+#     docker tag web registry.heroku.com/beer-app-rest-api;
+#     docker push registry.heroku.com/beer-app-rest-api;
+#     fi
